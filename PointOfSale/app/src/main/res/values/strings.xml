@@ -21,8 +21,8 @@
     <string name="dialog_name_hint">Item name</string>
     <string name="dialog_quantity_label">Quantity</string>
     <string name="dialog_calendar_label">Delivery Date</string>
-
-
+    <string name="search">Search</string>
+    <string name="choose_an_item">Choose an item</string>
 
 
 </resources>

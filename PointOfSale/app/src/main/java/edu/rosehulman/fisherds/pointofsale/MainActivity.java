@@ -18,12 +18,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
   private Item mCurrentItem;
   private Item mClearedItem;
+  private List<Item> mItems;
 
   private TextView mNameTextView, mQuantityTextView, mDateTextView;
 
@@ -33,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
+
+    mItems = new ArrayList<>();
+
+    // For testing only, add a bunch of hardcoded data.
+    mItems.add(new Item("Example 1", 100, new GregorianCalendar()));
+    mItems.add(new Item("Example 2", 101, new GregorianCalendar()));
+    mItems.add(new Item("Example 3", 102, new GregorianCalendar()));
+    mItems.add(new Item("Example 4", 103, new GregorianCalendar()));
 
     mNameTextView = findViewById(R.id.name_text);
     mQuantityTextView = findViewById(R.id.quantity_text);
@@ -71,13 +82,20 @@ public class MainActivity extends AppCompatActivity {
         int quantity = Integer.parseInt(quantityEditText.getText().toString());
 
         mCurrentItem = new Item(name, quantity, calendar);
+        mItems.add(mCurrentItem);
         updateView();
       }
     });
-
     builder.setNegativeButton(android.R.string.cancel, null);
-
     builder.create().show();
+  }
+
+  private String[] getNames() {
+    String[] names = new String[mItems.size()];
+    for (int i = 0; i < mItems.size(); i++) {
+      names[i] = mItems.get(i).getName();
+    }
+    return names;
   }
 
   private void updateView() {
@@ -104,24 +122,37 @@ public class MainActivity extends AppCompatActivity {
         mClearedItem = mCurrentItem;
         mCurrentItem = Item.getEmptyItem();
         updateView();
-        Snackbar snackbar = Snackbar.make(
-            findViewById(R.id.coordinator_layout), R.string.item_cleared,
-            Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout), R.string.item_cleared, Snackbar.LENGTH_LONG);
         snackbar.setAction(getString(R.string.undo), new View.OnClickListener() {
           @Override
           public void onClick(View v) {
             mCurrentItem = mClearedItem;
             mClearedItem = null;
             updateView();
-            Snackbar.make(
-                findViewById(R.id.coordinator_layout),
-                R.string.item_restored,
-                Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.coordinator_layout), R.string.item_restored, Snackbar.LENGTH_LONG).show();
           }
         });
         snackbar.show();
         return true;
+      case R.id.action_search_history:
+        showSearchDialog();
+        return true;
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  private void showSearchDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle(R.string.choose_an_item);
+
+    builder.setItems(getNames(), new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        mCurrentItem = mItems.get(which);
+        updateView();
+      }
+    });
+    builder.setNegativeButton(android.R.string.cancel, null);
+    builder.create().show();
   }
 }

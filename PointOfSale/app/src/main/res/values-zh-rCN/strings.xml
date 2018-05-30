@@ -17,4 +17,6 @@
     <string name="undo">UNDO</string>
     <string name="item_restored">Item is restored</string>
     <string name="add_new_item">Add a new item</string>
+    <string name="search">Search</string>
+    <string name="choose_an_item">Choose an item</string>
 </resources>
