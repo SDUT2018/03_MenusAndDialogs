@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Point Of Sale</string>
+    <string name="app_name">Point Of Sale Chinese</string>
     <string name="action_settings">Settings</string>
     <string name="item_title">Item ordered</string>
     <string name="name_format">Name: %s</string>
