@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">PointOfSale</string>
+    <string name="action_settings">Settings</string>
+    <string name="item_title">Item ordered</string>
+    <string name="name_format">Name: %s</string>
+    <string name="quantity_format">Quantity: %d</string>
+    <string name="date_format">Delivery date: %s</string>
+    <string name="name_start">Name</string>
+    <string name="quantity_start">Quantity</string>
+    <string name="date_start">Delivery date</string>
+    <string name="reset">Reset</string>
+    <string name="remove">Remove</string>
+    <string name="confirmation_dialog_message">Are you sure you want to remove all items?</string>
+    <string name="edit">Edit</string>
+</resources>

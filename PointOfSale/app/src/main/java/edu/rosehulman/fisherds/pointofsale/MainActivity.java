@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -12,8 +13,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,15 +49,29 @@ public class MainActivity extends AppCompatActivity {
 
   private void addItem() {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//    builder.setTitle(R.string.add_new_item);
     View view = getLayoutInflater().inflate(R.layout.item_dialog,
         null, false);
     builder.setView(view);
+    final EditText nameEditText = view.findViewById(R.id.item_name_edit_text);
+    final EditText quantityEditText = view.findViewById(R.id.item_quantity_edit_text);
+    final CalendarView deliveryDateView = view.findViewById(R.id.item_calendar_view);
+
+    final GregorianCalendar calendar = new GregorianCalendar();
+    deliveryDateView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+      @Override
+      public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+        calendar.set(year, month, dayOfMonth);
+      }
+    });
+
     builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-//        Toast.makeText(MainActivity.this,"You clicked ok",
-//            Toast.LENGTH_SHORT).show();
+        String name = nameEditText.getText().toString();
+        int quantity = Integer.parseInt(quantityEditText.getText().toString());
+
+        mCurrentItem = new Item(name, quantity, calendar);
+        updateView();
       }
     });
 
