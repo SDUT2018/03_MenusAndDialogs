@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     mItems.add(new Item("Example 4", 103, new GregorianCalendar()));
 
     mNameTextView = findViewById(R.id.name_text);
+    registerForContextMenu(mNameTextView);
     mQuantityTextView = findViewById(R.id.quantity_text);
     mDateTextView = findViewById(R.id.date_text);
 
@@ -115,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_settings:
-        startActivity(new Intent(Settings.ACTION_SETTINGS));
+//        startActivity(new Intent(Settings.ACTION_SETTINGS));
+        startActivity(new Intent(Settings.ACTION_LOCALE_SETTINGS));
         return true;
       case R.id.action_reset:
         mClearedItem = mCurrentItem;
@@ -172,5 +175,21 @@ public class MainActivity extends AppCompatActivity {
     });
     builder.setNegativeButton(android.R.string.cancel, null);
     builder.create().show();
+  }
+
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    super.onCreateContextMenu(menu, v, menuInfo);
+    getMenuInflater().inflate(R.menu.menu_context, menu);
+  }
+
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+
+    Toast.makeText(this,
+        "You clicked on the context menu",
+        Toast.LENGTH_SHORT).show();
+
+    return super.onContextItemSelected(item);
   }
 }
