@@ -23,6 +23,8 @@
     <string name="dialog_calendar_label">Delivery Date</string>
     <string name="search">Search</string>
     <string name="choose_an_item">Choose an item</string>
+    <string name="clear_all">Clear All</string>
+    <string name="are_you_sure">Are you sure you want to clear all the items?  This cannot be undone.</string>
 
 
 </resources>

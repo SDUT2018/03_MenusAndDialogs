@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
       public void onClick(DialogInterface dialog, int which) {
         String name = nameEditText.getText().toString();
         int quantity = Integer.parseInt(quantityEditText.getText().toString());
-
         mCurrentItem = new Item(name, quantity, calendar);
         mItems.add(mCurrentItem);
         updateView();
@@ -137,8 +136,27 @@ public class MainActivity extends AppCompatActivity {
       case R.id.action_search_history:
         showSearchDialog();
         return true;
+      case R.id.action_clear_all:
+        showClearAllDialog();
+        return true;
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  private void showClearAllDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle(R.string.choose_an_item);
+    builder.setMessage(R.string.are_you_sure);
+    builder.setNegativeButton(android.R.string.cancel, null);
+    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        mCurrentItem = Item.getEmptyItem();
+        mItems.clear();
+        updateView();
+      }
+    });
+    builder.create().show();
   }
 
   private void showSearchDialog() {
