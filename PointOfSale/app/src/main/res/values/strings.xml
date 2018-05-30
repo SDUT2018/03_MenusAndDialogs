@@ -16,4 +16,13 @@
     <string name="undo">UNDO</string>
     <string name="item_restored">Item is restored</string>
     <string name="add_new_item">Add a new item</string>
+
+    <string name="dialog_item_name_label">What do you want to buy?</string>
+    <string name="dialog_name_hint">Item name</string>
+    <string name="dialog_quantity_label">Quantity</string>
+    <string name="dialog_calendar_label">Delivery Date</string>
+
+
+
+
 </resources>

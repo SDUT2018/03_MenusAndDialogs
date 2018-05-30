@@ -43,22 +43,20 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void addItem() {
-    // Show a dialog to allow a user to create the mCurrentItem
-
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-    // Configure the dialog
-    builder.setTitle(R.string.add_new_item);
-
-    builder.setMessage("This is a test only, remove this later");
-
+//    builder.setTitle(R.string.add_new_item);
+    View view = getLayoutInflater().inflate(R.layout.item_dialog,
+        null, false);
+    builder.setView(view);
     builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        Toast.makeText(MainActivity.this,"You clicked ok",
-            Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this,"You clicked ok",
+//            Toast.LENGTH_SHORT).show();
       }
     });
+
+    builder.setNegativeButton(android.R.string.cancel, null);
 
     builder.create().show();
   }
