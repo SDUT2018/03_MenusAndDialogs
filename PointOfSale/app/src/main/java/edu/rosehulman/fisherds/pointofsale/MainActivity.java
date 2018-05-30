@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -55,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        addItem();
+        addEditItem(false);
       }
     });
   }
 
-  private void addItem() {
+  private void addEditItem(final boolean isEdit) {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
     View view = getLayoutInflater().inflate(R.layout.item_dialog,
         null, false);
@@ -68,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
     final EditText nameEditText = view.findViewById(R.id.item_name_edit_text);
     final EditText quantityEditText = view.findViewById(R.id.item_quantity_edit_text);
     final CalendarView deliveryDateView = view.findViewById(R.id.item_calendar_view);
+
+    if (isEdit) {
+      nameEditText.setText(mCurrentItem.getName());
+      quantityEditText.setText("" + mCurrentItem.getQuantity());
+      deliveryDateView.setDate(mCurrentItem.getDeliveryDateTime());
+    }
 
     final GregorianCalendar calendar = new GregorianCalendar();
     deliveryDateView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -82,8 +87,16 @@ public class MainActivity extends AppCompatActivity {
       public void onClick(DialogInterface dialog, int which) {
         String name = nameEditText.getText().toString();
         int quantity = Integer.parseInt(quantityEditText.getText().toString());
-        mCurrentItem = new Item(name, quantity, calendar);
-        mItems.add(mCurrentItem);
+
+        if (isEdit) {
+          mCurrentItem.setName(name);
+          mCurrentItem.setQuantity(quantity);
+          mCurrentItem.setDeliveryDate(calendar);
+        } else {
+          mCurrentItem = new Item(name, quantity, calendar);
+          mItems.add(mCurrentItem);
+        }
+
         updateView();
       }
     });
@@ -185,10 +198,16 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public boolean onContextItemSelected(MenuItem item) {
-
-    Toast.makeText(this,
-        "You clicked on the context menu",
-        Toast.LENGTH_SHORT).show();
+    switch (item.getItemId()) {
+      case R.id.menu_context_edit:
+        addEditItem(true);
+        return true;
+      case R.id.menu_context_remove:
+        mItems.remove(mCurrentItem);
+        mCurrentItem = Item.getEmptyItem();
+        updateView();
+        return true;
+    }
 
     return super.onContextItemSelected(item);
   }
