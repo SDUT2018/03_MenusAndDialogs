@@ -1,10 +1,12 @@
 package edu.rosehulman.fisherds.pointofsale;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -41,13 +43,24 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void addItem() {
+    // Show a dialog to allow a user to create the mCurrentItem
 
-    // TODO: Show a dialog to allow a user to create the mCurrentItem
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
+    // Configure the dialog
+    builder.setTitle(R.string.add_new_item);
 
-    // For now let's cheat so we can display something. :)
-    mCurrentItem = Item.getDefaultItem();
-    updateView();
+    builder.setMessage("This is a test only, remove this later");
+
+    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        Toast.makeText(MainActivity.this,"You clicked ok",
+            Toast.LENGTH_SHORT).show();
+      }
+    });
+
+    builder.create().show();
   }
 
   private void updateView() {

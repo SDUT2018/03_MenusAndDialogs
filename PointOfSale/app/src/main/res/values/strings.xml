@@ -15,4 +15,5 @@
     <string name="item_cleared">Item cleared</string>
     <string name="undo">UNDO</string>
     <string name="item_restored">Item is restored</string>
+    <string name="add_new_item">Add a new item</string>
 </resources>
